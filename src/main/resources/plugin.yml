@@ -1,0 +1,4 @@
+name: UpdateChecker
+version: '1.0'
+main: com.hemostaza.updateChecker.UpdateChecker
+api-version: '1.21'
