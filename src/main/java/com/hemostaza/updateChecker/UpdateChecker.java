@@ -1,6 +1,5 @@
 package com.hemostaza.updateChecker;
 
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -8,9 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
-import java.util.function.Consumer;
+import java.util.logging.Logger;
 
-// From: https://www.spigotmc.org/wiki/creating-an-update-checker-that-checks-for-updates
 public class UpdateChecker {
 
     private final JavaPlugin plugin;
@@ -18,6 +16,7 @@ public class UpdateChecker {
     private String latestVersion;
     private final String currentVersion;
     private static UpdateChecker instance = null;
+    private final Logger l;
 
     private static boolean listenerAlreadyRegistered = false;
 
@@ -29,6 +28,7 @@ public class UpdateChecker {
         this.plugin = plugin;
         currentVersion = plugin.getDescription().getVersion();
         this.resourceId = resourceId;
+        l = plugin.getLogger();
 
         if (!listenerAlreadyRegistered) {
             Bukkit.getPluginManager().registerEvents(new UpdateCheckerListener(), plugin);
@@ -39,7 +39,7 @@ public class UpdateChecker {
 
     }
 
-    public static UpdateChecker getInstance(){
+    public static UpdateChecker getInstance() {
         return instance;
     }
 
@@ -50,17 +50,26 @@ public class UpdateChecker {
                     latestVersion = scann.next();
                 }
             } catch (IOException e) {
-                plugin.getLogger().info("Unable to check for updates: " + e.getMessage());
+                l.info("Unable to check for updates: " + e.getMessage());
                 latestVersion = "";
             }
-            if(ResultMessage()==null){
-                Bukkit.getLogger().info(plugin.getName()+" is in the latest version");
-            }else Bukkit.getLogger().info(ResultMessage());
+            ConsoleOutput();
         });
     }
 
-    public String ResultMessage(){
-        if(!currentVersion.equals(latestVersion)) {
+    public void ConsoleOutput() {
+        if (!currentVersion.equals(latestVersion)) {
+            l.info("Has newer version available");
+            l.info("Current version used: " + currentVersion);
+            l.info("Latest version available: " + latestVersion);
+            l.info("Download link: https://www.spigotmc.org/resources/" + plugin.getName() + "." + resourceId);
+        } else {
+            l.info("is in the latest version.");
+        }
+    }
+
+    public String ResultMessage() {
+        if (!currentVersion.equals(latestVersion)) {
             return plugin.getName() + " has a newer version available.\nhttps://www.spigotmc.org/resources/" + plugin.getName() + "." + resourceId;
         }
         return null;
