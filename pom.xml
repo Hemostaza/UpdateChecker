@@ -5,19 +5,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hemostaza</groupId>
-    <artifactId>updatechecker</artifactId>
+    <artifactId>UpdateChecker</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>updatechecker</name>
+    <name>UpdateChecker</name>
 
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <organization>
+        <name>Hemostaza</name>
+        <url>https://github.com/Hemostaza</url>
+    </organization>
+
     <build>
-        <defaultGoal>clean package</defaultGoal>
+        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
